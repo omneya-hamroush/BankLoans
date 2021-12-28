@@ -5,4 +5,6 @@ from django.db import models
 
 class Loan(models.Model):
     amount = models.FloatField(null=True, blank=True)
-    minimum = models.IntegerField(null=True, blank=True)
+    minimum = models.FloatField(null=True, blank=True)
+    maximum = models.FloatField(null=True, blank=True)
+    interest_rate = models.FloatField(null=True, blank=True)
