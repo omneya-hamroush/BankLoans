@@ -32,6 +32,7 @@ AUTH_USER_MODEL = "userApp.User"
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bank_loans',
     'userApp'
+
 ]
 
 MIDDLEWARE = [
