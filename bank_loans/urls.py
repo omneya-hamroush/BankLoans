@@ -6,9 +6,13 @@ from bank_loans import views
 
 
 router = DefaultRouter()
+router.register('fund', views.FundViewSet, basename= 'fund')
+router.register('loan', views.LoanViewSet, basename= 'loan')
+
 
 urlpatterns = [
     url(r'^getfunds', views.GetFunds.as_view()),
-    url(r'^getp', views.GetP.as_view()),
     url(r'^amortization', views.FundAmort.as_view()),
+    url(r'^loanterms', views.GetLoanTerms.as_view()),
+    url(r'^addfund', views.AddFund.as_view()),
 ]

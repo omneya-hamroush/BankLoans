@@ -8,4 +8,10 @@ class FundSerializer(serializers.ModelSerializer):
         model = models.Fund
         fields = "__all__"
 
-        
+
+
+class LoanSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Loan
+        fields = "__all__"

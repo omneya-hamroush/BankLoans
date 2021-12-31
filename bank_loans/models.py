@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Loan(models.Model):
-    # amount = models.FloatField(null=True, blank=True)
+    amount = models.FloatField(null=True, blank=True)
     minimum = models.FloatField(null=True, blank=True)
     maximum = models.FloatField(null=True, blank=True)
     interest_rate = models.FloatField(null=True, blank=True)
@@ -12,8 +12,12 @@ class Loan(models.Model):
 
 
 class Fund(models.Model):
-    # amount = models.FloatField(null=True, blank=True)
+    amount = models.FloatField(null=True, blank=True)
     minimum = models.FloatField(null=True, blank=True)
     maximum = models.FloatField(null=True, blank=True)
     interest_rate = models.FloatField(null=True, blank=True)
     duration = models.IntegerField(null=True, blank=True)
+    # validators=[
+    #         MaxValueValidator(100),
+    #         MinValueValidator(1)
+    #     ]

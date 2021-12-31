@@ -3,5 +3,17 @@ from django.contrib import admin
 from bank_loans import models
 
 
-admin.site.register(models.Loan)
-admin.site.register(models.Fund)
+# admin.site.register(models.Loan)
+# admin.site.register(models.Fund)
+
+
+# class FundInline(admin.StackedInline):
+#     model = models.Fund
+#
+#     readonly_fields = (
+#         "amount"
+#     )
+@admin.register(models.Fund)
+class FundAdmin(admin.ModelAdmin):
+   list_display = ('minimum', 'maximum', 'interest_rate', 'duration' )
+   exclude = ('amount',)
