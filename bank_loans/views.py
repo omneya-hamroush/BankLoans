@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from bank_loans import models, serializers
+from userApp import models as userModels
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -37,10 +38,9 @@ class GetFunds(APIView):
     # permission_classes = (permissions.ProviderPermission,)
     # authentication_classes = (TokenAuthentication,)
     def get(self,request):
-        query_params = self.request.query_params
         amount = self.request.query_params.get('amount')
         queryset = models.Fund.objects.all()
-        queryset = queryset.filter(minimum__lte=amount, maximum__gte=amount, amount=None)
+        queryset = queryset.filter(minimum__lte=amount, maximum__gte=amount)
         serializer = serializers.FundSerializer(queryset, many=True,context={'request':request})
         print(serializer.data)
         if serializer.data == []:
@@ -55,7 +55,6 @@ class FundAmort(APIView):
     # permission_classes = (permissions.ProviderPermission,)
     # authentication_classes = (TokenAuthentication,)
     def get(self,request):
-        query_params = self.request.query_params
         fund_id = self.request.query_params.get('fund_id')
         amount = self.request.query_params.get('amount')
         fund = models.Fund.objects.get(id=fund_id)
@@ -93,25 +92,41 @@ class GetLoanTerms(APIView):
 
 class AddFund(APIView):
     def post(self,request):
-        query_params = self.request.query_params
         fund_id = self.request.query_params.get('fund_id')
         fund = models.Fund.objects.get(id=fund_id)
         print(fund_id)
         print("ccccccccc")
         amount = self.request.query_params.get('amount')
         print("iiiiiiiiiiiiii")
-        print(type(amount))
-        print(amount)
+        # print(type(amount))
+        # print(amount)
+        print(self.request.user)
+        user = userModels.ProviderUser.objects.get(id=1)
+        print(user)
 
-
-        fund_data = {"amount":amount, "minimum":fund.minimum, "maximum":fund.maximum, "interest_rate": fund.interest_rate,
-        "duration":fund.duration
-        }
-        loan, created = models.Fund.objects.update_or_create(
-        **fund_data
+        # fund_data = {"amount":amount, "fund":fund_id, 
+        # }
+        fund= models.FundApplication.objects.create(
+          amount=amount, fund=fund, provider=user
         )
-        serializer = serializers.FundSerializer(loan, context={'request':request})
+        serializer = serializers.FundApplicationSerializer(fund, context={'request':request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class GetLoans(APIView):
+    def get(self,request):
+        term = self.request.query_params.get('term')
+        amount = self.request.query_params.get('amount')
+        queryset = models.Loan.objects.all()
+        queryset = queryset.filter(minimum__lte=amount, maximum__gte=amount, amount=None, duration=term)
+        serializer = serializers.LoanSerializer(queryset, many=True,context={'request':request})
+        print(serializer.data)
+        if serializer.data == []:
+            return Response({"No matching laons"})
+        else:
+
+            return Response({"data": serializer.data})
+        
 
 
 class LoanViewSet(viewsets.ModelViewSet):

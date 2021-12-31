@@ -15,3 +15,18 @@ class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Loan
         fields = "__all__"
+
+
+class FundApplicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.FundApplication
+        fields = "__all__"
+
+
+class LoanApplicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.LoanApplication
+        fields = "__all__"
+

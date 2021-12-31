@@ -66,17 +66,17 @@ class User(AbstractUser):
 
 
 class CustomerUser(models.Model):
-    loan = models.ManyToManyField(
-        "bank_loans.Loan", related_name="customer_loans", blank=True
-    )
+    # loan = models.ManyToManyField(
+    #     "bank_loans.Loan", related_name="customer_loans", blank=True
+    # )
     user = models.OneToOneField(
         "User", on_delete=models.CASCADE, blank=True, null=True
     )
 
 class ProviderUser(models.Model):
-    fund = models.ManyToManyField(
-        "bank_loans.Fund", related_name="provider_loans", blank=True
-    )
+    # fund = models.ManyToManyField(
+    #     "bank_loans.Fund", related_name="provider_loans", blank=True
+    # )
     user = models.OneToOneField(
         "User", on_delete=models.CASCADE, blank=True, null=True
     )

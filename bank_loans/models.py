@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Loan(models.Model):
-    amount = models.FloatField(null=True, blank=True)
+    # amount = models.FloatField(null=True, blank=True)
     minimum = models.FloatField(null=True, blank=True)
     maximum = models.FloatField(null=True, blank=True)
     interest_rate = models.FloatField(null=True, blank=True)
@@ -12,7 +12,7 @@ class Loan(models.Model):
 
 
 class Fund(models.Model):
-    amount = models.FloatField(null=True, blank=True)
+    # amount = models.FloatField(null=True, blank=True)
     minimum = models.FloatField(null=True, blank=True)
     maximum = models.FloatField(null=True, blank=True)
     interest_rate = models.FloatField(null=True, blank=True)
@@ -21,3 +21,35 @@ class Fund(models.Model):
     #         MaxValueValidator(100),
     #         MinValueValidator(1)
     #     ]
+
+
+class LoanApplication(models.Model):
+    amount = models.FloatField(null=True, blank=True)
+    status = models.CharField(
+        max_length=24,
+        default="Pending",
+        choices=(
+            ("pending", "Pending"),
+            ("approved", "Approved"),
+            ("refused", "Refused"),
+            
+        ),
+    )
+    customer = models.ForeignKey("userApp.CustomerUser", null=True, on_delete=models.SET_NULL)
+    loan = models.ForeignKey("Loan", null=True, on_delete=models.SET_NULL)
+
+
+class FundApplication(models.Model):
+    amount = models.FloatField(null=True, blank=True)
+    status = models.CharField(
+        max_length=24,
+        default="Pending",
+        choices=(
+            ("pending", "Pending"),
+            ("approved", "Approved"),
+            ("refused", "Refused"),
+            
+        ),
+    )
+    provider = models.ForeignKey("userApp.ProviderUser", null=True, on_delete=models.SET_NULL)
+    fund = models.ForeignKey("Fund", null=True, on_delete=models.SET_NULL)

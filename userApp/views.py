@@ -19,7 +19,9 @@ class LoginViewSet(ObtainAuthToken):
         user = models.User.objects.filter(email=request.data['username'])
         print("-------------")
         print(user)
+        user1 = models.User.objects.get(email=request.data['username'])
         if user:
+            
             user = user[0]
             print(user)
 
@@ -42,7 +44,16 @@ class LoginViewSet(ObtainAuthToken):
 
                 })
             if is_correct_password == False:
-                return Response({"Incorrect Password"})    
+                return Response({"Incorrect Password"}) 
+            print(user)
+            if user1.is_loan_provider == True:
+                provider = models.ProviderUser.objects.create(
+                 user=user1
+                 )   
+            if user1.is_loan_customer == True:
+                provider = models.CustomerUser.objects.create(
+                 user=user1
+                 )         
 
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
@@ -53,6 +64,15 @@ class LoginViewSet(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         print(token)
         print("llllllllllllll")
+        print(user)
+        if user1.is_loan_provider == True:
+            provider = models.ProviderUser.objects.create(
+                 user=user1
+                 )   
+        if user1.is_loan_customer == True:
+            provider = models.CustomerUser.objects.create(
+                 user=user1
+                 ) 
         return Response({
             'token': token.key,
             'is_active': user.is_active,

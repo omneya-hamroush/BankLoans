@@ -3,8 +3,8 @@ from django.contrib import admin
 from bank_loans import models
 
 
-# admin.site.register(models.Loan)
-# admin.site.register(models.Fund)
+admin.site.register(models.LoanApplication)
+admin.site.register(models.FundApplication)
 
 
 # class FundInline(admin.StackedInline):
@@ -16,4 +16,10 @@ from bank_loans import models
 @admin.register(models.Fund)
 class FundAdmin(admin.ModelAdmin):
    list_display = ('minimum', 'maximum', 'interest_rate', 'duration' )
-   exclude = ('amount',)
+   
+
+
+@admin.register(models.Loan)
+class LoanAdmin(admin.ModelAdmin):
+   list_display = ('minimum', 'maximum', 'interest_rate', 'duration' )
+   # exclude = ('amount',)
